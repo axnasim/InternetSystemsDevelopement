@@ -1,6 +1,6 @@
 package com.uno.app;
 
-public class test{
+public class Main{
 	public static void main(String [] args){
 		System.out.println("Hello World");
 	}
