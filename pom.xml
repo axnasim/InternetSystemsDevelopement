@@ -12,7 +12,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>com.uno.app.test</mainClass>
+							<mainClass>com.uno.app.Main</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
