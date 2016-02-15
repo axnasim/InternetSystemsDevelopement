@@ -1,0 +1,23 @@
+    <project>
+      <modelVersion>4.0.0</modelVersion>
+      <groupId>com.uno.app</groupId>
+      <artifactId>internetSystemsDev</artifactId>
+      <version>1</version>
+      
+      <build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<mainClass>com.uno.app.test</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	
+    </project>
