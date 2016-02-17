@@ -48,6 +48,18 @@ public class MavenAccessObject {
 			e.printStackTrace();
 		}
 		parent.setDependencies(list);
+		
+		downloadJars(list);
+		
 		return list;
+	}
+
+	private void downloadJars(ArrayList<PackageElement> list) {
+		for(int i = 0; i < list.size(); i++){
+			
+			
+			
+		}
+		
 	}
 }

@@ -10,6 +10,26 @@ public class PackageElement {
 	
 	private String version = "";
 	
+	private String jarLocation = "";
+	
+	private String pomLocation = "";
+	
+	public String getJarLocation() {
+		return jarLocation;
+	}
+
+	public void setJarLocation(String jarLocation) {
+		this.jarLocation = jarLocation;
+	}
+
+	public String getPomLocation() {
+		return pomLocation;
+	}
+
+	public void setPomLocation(String pomLocation) {
+		this.pomLocation = pomLocation;
+	}
+
 	public String getGroupID() {
 		return groupID;
 	}

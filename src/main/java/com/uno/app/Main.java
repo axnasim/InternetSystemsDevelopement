@@ -14,6 +14,4 @@ public class Main{
 		
 		ArrayList<PackageElement> list = mao.getDependencies(args[0], parent);
 	}
-	
-	
 }
