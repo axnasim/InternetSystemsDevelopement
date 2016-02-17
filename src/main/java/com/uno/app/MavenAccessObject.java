@@ -1,18 +1,22 @@
 package com.uno.app;
 
+import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
 
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
-import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.Node;
-import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
+import javax.xml.parsers.DocumentBuilderFactory;
 
-import java.io.File;
+import org.apache.commons.io.FileUtils;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 public class MavenAccessObject {
+	
+	private static final String TEMP_DIRECTORY = "jardump";
+	
 	public ArrayList<PackageElement> getDependencies(String pomFile, PackageElement parent) {
 		System.out.println(pomFile);
 		ArrayList<PackageElement> list = new ArrayList<PackageElement>();
@@ -57,7 +61,22 @@ public class MavenAccessObject {
 	private void downloadJars(ArrayList<PackageElement> list) {
 		for(int i = 0; i < list.size(); i++){
 			
+			PackageElement element = list.get(i);
 			
+			String artifactId = element.getArtifactID();
+			String groupId = element.getGroupID().replace(".", "/");
+			String version = element.getVersion();
+			
+			String filename = artifactId + "-" + version + ".jar";
+						
+			URL url;
+			try {
+				url = new URL("https://repo1.maven.org/maven2/" + groupId + "/" + artifactId + "/" + version + "/" + filename);
+				System.out.println("Downloading " + filename);
+				FileUtils.copyURLToFile(url, new File(TEMP_DIRECTORY + "/" + filename));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 			
 		}
 		
