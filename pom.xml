@@ -1,10 +1,19 @@
-    <project>
-      <modelVersion>4.0.0</modelVersion>
-      <groupId>com.uno.app</groupId>
-      <artifactId>internetSystemsDev</artifactId>
-      <version>1</version>
-      
-      <build>
+
+<project>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.uno.app</groupId>
+	<artifactId>internetSystemsDev</artifactId>
+	<version>1</version>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis-spring</artifactId>
+			<version>1.1.1</version>
+		</dependency>
+	</dependencies>
+
+	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -19,5 +28,5 @@
 			</plugin>
 		</plugins>
 	</build>
-	
-    </project>
+
+</project>
