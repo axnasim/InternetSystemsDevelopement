@@ -71,9 +71,10 @@ public class MavenAccessObject {
 						
 			URL url;
 			try {
+				FileUtils fu = new FileUtils();
 				url = new URL("https://repo1.maven.org/maven2/" + groupId + "/" + artifactId + "/" + version + "/" + filename);
 				System.out.println("Downloading " + filename);
-				FileUtils.copyURLToFile(url, new File(TEMP_DIRECTORY + "/" + filename));
+				fu.copyURLToFile(url, new File(TEMP_DIRECTORY + "/" + filename));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
