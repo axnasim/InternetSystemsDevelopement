@@ -18,7 +18,6 @@ public class MavenAccessObject {
 	private static final String TEMP_DIRECTORY = "jardump";
 	
 	public ArrayList<PackageElement> getDependencies(String pomFile, PackageElement parent) {
-		System.out.println(pomFile);
 		ArrayList<PackageElement> list = new ArrayList<PackageElement>();
 		try {
 			File fXmlFile = new File(pomFile);
@@ -55,7 +54,16 @@ public class MavenAccessObject {
 		
 		downloadJars(list);
 		
+		recurse(list);
+		
 		return list;
+	}
+
+	private void recurse(ArrayList<PackageElement> list) {
+		for(int i = 0; i < list.size(); i++){
+			getDependencies(list.get(i).getPomLocation(),list.get(i));
+		}
+		
 	}
 
 	private void downloadJars(ArrayList<PackageElement> list) {
@@ -68,6 +76,9 @@ public class MavenAccessObject {
 			String version = element.getVersion();
 			
 			String filename = artifactId + "-" + version + ".jar";
+			String pomname = artifactId + "-" + version + ".pom";
+			element.setJarLocation(filename);
+			element.setPomLocation("jardump/" + pomname);
 						
 			URL url;
 			try {
@@ -75,6 +86,9 @@ public class MavenAccessObject {
 				url = new URL("https://repo1.maven.org/maven2/" + groupId + "/" + artifactId + "/" + version + "/" + filename);
 				System.out.println("Downloading " + filename);
 				fu.copyURLToFile(url, new File(TEMP_DIRECTORY + "/" + filename));
+				url = new URL("https://repo1.maven.org/maven2/" + groupId + "/" + artifactId + "/" + version + "/" + pomname);
+				System.out.println("Downloading " + pomname);
+				fu.copyURLToFile(url, new File(TEMP_DIRECTORY + "/" + pomname));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
