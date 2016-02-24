@@ -12,6 +12,11 @@ Dependies: Maven, DoSOCS, SQLite3, and Python
 
 We will use Github Issues to communicate what is done and what needs to be done. We will use email as needed for communication outside of Github.
 
+# Copyright
+
+Joseph Eley
+Cooper Pendleton
+
 # Database Schema of the System
 
 We will use is the SPDX spec that DoSOCS uses.
