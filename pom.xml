@@ -9,7 +9,7 @@
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
-			<version>2.4</version>
+			<version>${myVersion}</version>
 		</dependency>
 		<dependency>
 			<groupId>de.cubeisland.engine</groupId>
@@ -63,5 +63,9 @@
 			</plugin>
 		</plugins>
 	</build>
+
+	<properties>
+		<myVersion>2.4</myVersion>
+	</properties>
 
 </project>

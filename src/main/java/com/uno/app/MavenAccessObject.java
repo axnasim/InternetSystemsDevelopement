@@ -17,6 +17,8 @@ public class MavenAccessObject {
 	
 	private static final String TEMP_DIRECTORY = "jardump";
 	
+	private static final String POM_DIRECTORY = "pomdump";
+	
 	public ArrayList<PackageElement> getDependencies(String pomFile, PackageElement parent) {
 		ArrayList<PackageElement> list = new ArrayList<PackageElement>();
 		try {
@@ -40,7 +42,23 @@ public class MavenAccessObject {
 					Element eElement = (Element) nNode;
 					element.setArtifactID(eElement.getElementsByTagName("artifactId").item(0).getTextContent());
 					element.setGroupID(eElement.getElementsByTagName("groupId").item(0).getTextContent());
-					element.setVersion(eElement.getElementsByTagName("version").item(0).getTextContent());
+					String ver = eElement.getElementsByTagName("version").item(0).getTextContent();
+					if(!ver.contains("{")){
+						element.setVersion(eElement.getElementsByTagName("version").item(0).getTextContent());
+					}
+					else {
+						String prop= ver.replaceFirst("\\$\\{", "");
+						prop=prop.replaceFirst("\\}", "");
+						NodeList property = doc.getElementsByTagName(prop);
+						String value = null;
+						if(property !=null){
+							value = property.item(0).getTextContent();
+						}    
+						ver = ver.replaceFirst("\\$\\{"+prop+"\\}", value);
+						element.setVersion(ver);
+					}
+					
+					
 				}
 				element.setParent(parent);
 				list.add(element);
@@ -76,8 +94,8 @@ public class MavenAccessObject {
 			
 			String filename = artifactId + "-" + version + ".jar";
 			String pomname = artifactId + "-" + version + ".pom";
-			element.setJarLocation(filename);
-			element.setPomLocation("jardump/" + pomname);
+			element.setJarLocation( TEMP_DIRECTORY + "/" + filename);
+			element.setPomLocation(POM_DIRECTORY + "/" + pomname);
 						
 			URL url;
 			try {
@@ -87,7 +105,7 @@ public class MavenAccessObject {
 				fu.copyURLToFile(url, new File(TEMP_DIRECTORY + "/" + filename));
 				url = new URL("https://repo1.maven.org/maven2/" + groupId + "/" + artifactId + "/" + version + "/" + pomname);
 				System.out.println("Downloading " + pomname);
-				fu.copyURLToFile(url, new File(TEMP_DIRECTORY + "/" + pomname));
+				fu.copyURLToFile(url, new File(POM_DIRECTORY + "/" + pomname));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
