@@ -41,7 +41,6 @@ public class MavenAccessObject {
 					element.setArtifactID(eElement.getElementsByTagName("artifactId").item(0).getTextContent());
 					element.setGroupID(eElement.getElementsByTagName("groupId").item(0).getTextContent());
 					element.setVersion(eElement.getElementsByTagName("version").item(0).getTextContent());
-
 				}
 				element.setParent(parent);
 				list.add(element);
