@@ -14,6 +14,16 @@ public class PackageElement {
 	
 	private String pomLocation = "";
 	
+	private String dosocsOutput = "";
+	
+	public String getDosocsOutput() {
+		return dosocsOutput;
+	}
+
+	public void setDosocsOutput(String dosocsOutput) {
+		this.dosocsOutput = dosocsOutput;
+	}
+
 	public String getJarLocation() {
 		return jarLocation;
 	}

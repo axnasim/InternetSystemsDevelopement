@@ -1,6 +1,11 @@
 package com.uno.app;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.URL;
 import java.util.ArrayList;
 
@@ -14,11 +19,11 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class MavenAccessObject {
-	
+
 	private static final String TEMP_DIRECTORY = "jardump";
-	
+
 	private static final String POM_DIRECTORY = "pomdump";
-	
+
 	public ArrayList<PackageElement> getDependencies(String pomFile, PackageElement parent) {
 		ArrayList<PackageElement> list = new ArrayList<PackageElement>();
 		try {
@@ -43,74 +48,138 @@ public class MavenAccessObject {
 					element.setArtifactID(eElement.getElementsByTagName("artifactId").item(0).getTextContent());
 					element.setGroupID(eElement.getElementsByTagName("groupId").item(0).getTextContent());
 					String ver = eElement.getElementsByTagName("version").item(0).getTextContent();
-					if(!ver.contains("{")){
+					if (!ver.contains("{")) {
 						element.setVersion(eElement.getElementsByTagName("version").item(0).getTextContent());
-					}
-					else {
-						String prop= ver.replaceFirst("\\$\\{", "");
-						prop=prop.replaceFirst("\\}", "");
+					} else {
+						String prop = ver.replaceFirst("\\$\\{", "");
+						prop = prop.replaceFirst("\\}", "");
 						NodeList property = doc.getElementsByTagName(prop);
 						String value = null;
-						if(property !=null){
+						if (property != null) {
 							value = property.item(0).getTextContent();
-						}    
-						ver = ver.replaceFirst("\\$\\{"+prop+"\\}", value);
+						}
+						ver = ver.replaceFirst("\\$\\{" + prop + "\\}", value);
 						element.setVersion(ver);
 					}
-					
-					
+
 				}
 				element.setParent(parent);
 				list.add(element);
-				System.out.println(element);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		parent.setDependencies(list);
-		
+
 		downloadJars(list);
-		
+
+		analyzeJars(list);
+
 		recurse(list);
-		
+
 		return list;
 	}
 
-	private void recurse(ArrayList<PackageElement> list) {
-		for(int i = 0; i < list.size(); i++){
-			getDependencies(list.get(i).getPomLocation(),list.get(i));
-		}
+	private void analyzeJars(ArrayList<PackageElement> list) {
+		for (int i = 0; i < list.size(); i++) {
+			PackageElement element = list.get(i);
+			
+			
+			 try {
+	                Runtime rt = Runtime.getRuntime();
+	                //Process pr = rt.exec("cmd /c dir");
+	                Process pr = rt.exec("dosocs2 oneshot " + element.getJarLocation());
+	 
+	                BufferedReader input = new BufferedReader(new InputStreamReader(pr.getInputStream()));
+	 
+	                String line=null;
+	                String total = "";
+	                while((line=input.readLine()) != null) {
+	                    total += line + "\n";
+	                }
+	                element.setDosocsOutput(total);
+	                int exitVal = pr.waitFor();
+	             
+	                PrintWriter out = new PrintWriter("output/" + element.getArtifactID() + "-" + element.getVersion() + ".spdx");
+	                FileOutputStream fop = null;
+	        		File file;
+	        		//String content = "This is the text content";
+
+	        		try {
+
+	        			file = new File("output/" + element.getArtifactID() + "-" + element.getVersion() + ".spdx");
+	        			fop = new FileOutputStream(file);
+
+	        			// if file doesnt exists, then create it
+	        			if (!file.exists()) {
+	        				file.createNewFile();
+	        			}
+
+	        			// get the content in bytes
+	        			byte[] contentInBytes = total.getBytes();
+
+	        			fop.write(contentInBytes);
+	        			fop.flush();
+	        			fop.close();
+
+
+	        		} catch (IOException e) {
+	        			e.printStackTrace();
+	        		} finally {
+	        			try {
+	        				if (fop != null) {
+	        					fop.close();
+	        				}
+	        			} catch (IOException e) {
+	        				e.printStackTrace();
+	        			}
+	        		}
+	            } catch(Exception e) {
+	                System.out.println(e.toString());
+	                e.printStackTrace();
+	            }
+	        }
+			
 		
 	}
 
+	private void recurse(ArrayList<PackageElement> list) {
+		for (int i = 0; i < list.size(); i++) {
+			getDependencies(list.get(i).getPomLocation(), list.get(i));
+		}
+
+	}
+
 	private void downloadJars(ArrayList<PackageElement> list) {
-		for(int i = 0; i < list.size(); i++){
-			
+		for (int i = 0; i < list.size(); i++) {
+
 			PackageElement element = list.get(i);
-			
+
 			String artifactId = element.getArtifactID();
 			String groupId = element.getGroupID().replace(".", "/");
 			String version = element.getVersion();
-			
+
 			String filename = artifactId + "-" + version + ".jar";
 			String pomname = artifactId + "-" + version + ".pom";
-			element.setJarLocation( TEMP_DIRECTORY + "/" + filename);
+			element.setJarLocation(TEMP_DIRECTORY + "/" + filename);
 			element.setPomLocation(POM_DIRECTORY + "/" + pomname);
-						
+
 			URL url;
 			try {
 				FileUtils fu = new FileUtils();
-				url = new URL("https://repo1.maven.org/maven2/" + groupId + "/" + artifactId + "/" + version + "/" + filename);
+				url = new URL("https://repo1.maven.org/maven2/" + groupId + "/" + artifactId + "/" + version + "/"
+						+ filename);
 				System.out.println("Downloading " + filename);
 				fu.copyURLToFile(url, new File(TEMP_DIRECTORY + "/" + filename));
-				url = new URL("https://repo1.maven.org/maven2/" + groupId + "/" + artifactId + "/" + version + "/" + pomname);
+				url = new URL(
+						"https://repo1.maven.org/maven2/" + groupId + "/" + artifactId + "/" + version + "/" + pomname);
 				System.out.println("Downloading " + pomname);
 				fu.copyURLToFile(url, new File(POM_DIRECTORY + "/" + pomname));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
+
 		}
-		
+
 	}
 }
