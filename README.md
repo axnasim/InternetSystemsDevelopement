@@ -1,6 +1,6 @@
 # System Description
 
-Our project will be used to develop spdx documents that have relationships built on a given pom.xml file.  
+Our project will be used to develop spdx documents that have relationships built on a given pom.xml file. This project is used to analyze a project pom and generate spdx reports on that project as well as populating a DoSOCS database with the corresponding relationship. 
 
 # Development Environment
 
@@ -29,8 +29,9 @@ We will use is the SPDX spec that DoSOCS uses.
 
 Need to have installed:
 
-Java, Maven, DoSOCS, SQLite3, Python
+Java, Maven, DoSOCS, Python
 
 1. Download/clone source
 2. Run "mvn clean install" from the root of the project
-3. run the jar that is created in the target/ directory with the location of the pom.xml that you want to analyze as an argument. 
+3. run the jar that is created in the target/ directory with the location of the pom.xml that you want to analyze as an argument. So for example "java -jar internetSystemsDev-1-jar-with-dependencies.jar pom.xml"
+
