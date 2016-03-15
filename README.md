@@ -31,7 +31,13 @@ Need to have installed:
 
 Java, Maven, DoSOCS, Python
 
+Two Options:
+
 1. Download/clone source
 2. Run "mvn clean install" from the root of the project
 3. run the jar that is created in the target/ directory with the location of the pom.xml that you want to analyze as an argument. So for example "java -jar internetSystemsDev-1-jar-with-dependencies.jar pom.xml"
 
+or 
+
+1. Download source
+2. Run pre-built jar in the releases folder with the location of your pom. So for example "java -jar internetSystemsDev-1-jar-with-dependencies.jar /location/of/pom.xml"
