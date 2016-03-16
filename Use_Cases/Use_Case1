@@ -1,10 +1,10 @@
-Title:
-Primary Actor:
-Goal in Context:
-Stakeholders and Interests:
-Preconditions:
-Main Success Scenario:
-Failed End Conditions:
-Trigger:
+Title: 
+Primary Actor: 
+Goal in Context: 
+Stakeholders and Interests: 
+Preconditions: Maven, java, DoSOCS, SQLite3 installed
+Main Success Scenario: Successfully downloads all poms and jars, successfully runs DoSOCS, and creates the output
+Failed End Conditions: One of the things in the success Scenario fails. So the downloads fail, it cannot create the output directory, DoSOCS fails, or the output cannot be created. 
+Trigger: Submitting the Pom.xml
 Notes:
 
