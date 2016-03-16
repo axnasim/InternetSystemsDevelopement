@@ -41,13 +41,3 @@ or
 
 1. Download source
 2. Run pre-built jar in the releases folder with the location of your pom. So for example "java -jar internetSystemsDev-1-jar-with-dependencies.jar /location/of/pom.xml"
-
-Usage:
-
-Command: java -jar \[jarname\].jar /location/of/pom.xml \[options\]
-
-Options: 
-
--p - print dependency tree
-
-
