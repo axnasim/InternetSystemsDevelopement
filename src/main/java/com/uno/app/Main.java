@@ -23,7 +23,7 @@ public class Main{
 				System.out.println("Failed to create directory!");
 			}
 		}
-		ArrayList<PackageElement> list = mao.getDependencies(args[0], parent);
+		ArrayList<PackageElement> list = mao.getDependencies(args[0], parent,0);
 		
 		if (args.length > 1 && args[1].equals("-p")) {
 			System.out.println("\n--DEPENDENCY TREE--\n");
