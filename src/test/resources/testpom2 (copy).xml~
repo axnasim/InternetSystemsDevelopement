@@ -1,0 +1,22 @@
+
+<project>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.uno.app</groupId>
+	<artifactId>internetSystemsDev</artifactId>
+	<version>1</version>
+
+	<dependencies>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>${myVersion}</version>
+		</dependency>
+		<dependency>
+			<groupId>de.cubeisland.engine</groupId>
+			<artifactId>logging</artifactId>
+			<version>0.0.3</version>
+		</dependency>
+	</dependencies>
+
+
+</project>

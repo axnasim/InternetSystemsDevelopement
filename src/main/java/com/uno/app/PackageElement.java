@@ -80,19 +80,12 @@ public class PackageElement {
 		this.dependencies = dependencies;
 	}
 
-	public ArrayList<Licence> getLicences() {
-		return licences;
-	}
 
-	public void setLicences(ArrayList<Licence> licences) {
-		this.licences = licences;
-	}
 
 	private PackageElement parent = null;
 	
 	private ArrayList<PackageElement> dependencies = new ArrayList<PackageElement>();
 	
-	private ArrayList<Licence> licences = new ArrayList<Licence>();
 	
 	@Override
 	public String toString(){
