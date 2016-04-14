@@ -53,4 +53,4 @@ Options:
 # How to Run Tests
 
 1. Download/clone source
-2. Run "mvn clean install" from the root of the project. This also runs the tests. 
+2. Run "mvn clean install" from the root of the project. This in turn runs the tests. 
