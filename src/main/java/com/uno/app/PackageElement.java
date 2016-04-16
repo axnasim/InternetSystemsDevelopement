@@ -16,6 +16,16 @@ public class PackageElement {
 	
 	private String dosocsOutput = "";
 	
+	private String checksum = "";
+	
+	public String getChecksum() {
+		return checksum;
+	}
+	
+	public void setChecksum(String checksum) {
+		this.checksum = checksum;
+	}
+	
 	public String getDosocsOutput() {
 		return dosocsOutput;
 	}

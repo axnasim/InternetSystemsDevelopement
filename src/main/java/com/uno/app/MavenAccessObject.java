@@ -1,14 +1,20 @@
 package com.uno.app;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.URL;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Formatter;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -71,7 +77,7 @@ public class MavenAccessObject {
 								element.setParent(parent);
 								list.add(element);
 							} else {
-								System.out.println(ver);
+								//System.out.println(ver);
 								if (ver.equals("${project.version}")) {
 									NodeList mlist = doc.getElementsByTagName("project");
 									Node mnode = mlist.item(0);
@@ -149,8 +155,11 @@ public class MavenAccessObject {
 				element.setDosocsOutput(total);
 				int exitVal = pr.waitFor();
 
-				PrintWriter out = new PrintWriter(
-						"output/" + element.getArtifactID() + "-" + element.getVersion() + ".spdx");
+				try {
+					PrintWriter out = new PrintWriter("output/" + element.getArtifactID() + "-" + element.getVersion() + ".spdx");
+				} catch (FileNotFoundException fnf){
+					//ignore ... I don't know what this code is even for
+				}
 				FileOutputStream fop = null;
 				File file;
 				// String content = "This is the text content";
@@ -173,7 +182,7 @@ public class MavenAccessObject {
 					fop.close();
 
 				} catch (IOException e) {
-					e.printStackTrace();
+					//e.printStackTrace();
 				} finally {
 					try {
 						if (fop != null) {
@@ -191,6 +200,15 @@ public class MavenAccessObject {
 
 	}
 
+	public void analyzeRootJar(PackageElement root) {
+		File jarFile = new File(root.getJarLocation());
+		root.setChecksum(sha1(jarFile));
+		ArrayList<PackageElement> list = new ArrayList<PackageElement>();
+		list.add(root);
+		System.out.println("Analyzing project...");
+		analyzeJars(list);
+	}
+	
 	private void recurse(ArrayList<PackageElement> list, int level) {
 		for (int i = 0; i < list.size(); i++) {
 			getDependencies(list.get(i).getPomLocation(), list.get(i), level + 1);
@@ -218,7 +236,9 @@ public class MavenAccessObject {
 				url = new URL("https://repo1.maven.org/maven2/" + groupId + "/" + artifactId + "/" + version + "/"
 						+ filename);
 				System.out.println("Downloading " + filename);
-				fu.copyURLToFile(url, new File(TEMP_DIRECTORY + "/" + filename), 4000, 4000);
+				File jarFile = new File(TEMP_DIRECTORY + "/" + filename);
+				fu.copyURLToFile(url, jarFile, 4000, 4000);
+				element.setChecksum(sha1(jarFile));
 			} catch (FileNotFoundException error) {
 				System.out.println("File not found in Maven Central");
 			} catch (IOException e) {
@@ -227,7 +247,9 @@ public class MavenAccessObject {
 					url = new URL("https://repo1.maven.org/maven2/" + groupId + "/" + artifactId + "/" + version + "/"
 							+ filename);
 					System.out.println("Downloading " + filename);
-					fu.copyURLToFile(url, new File(TEMP_DIRECTORY + "/" + filename), 4000, 4000);
+					File jarFile = new File(TEMP_DIRECTORY + "/" + filename);
+					fu.copyURLToFile(url, jarFile, 4000, 4000);
+					element.setChecksum(sha1(jarFile));
 				} catch (FileNotFoundException error) {
 					System.out.println("File not found in Maven Central");
 					list.remove(i);
@@ -266,5 +288,39 @@ public class MavenAccessObject {
 			}
 		}
 
+	}
+	
+	private String sha1(File file) {
+		MessageDigest messageDigest = null;
+		try {
+			messageDigest = MessageDigest.getInstance("SHA1");
+		} catch (NoSuchAlgorithmException e) {
+			System.out.println(e);
+		}
+		
+		String result = "";
+
+		try {
+			InputStream is = new BufferedInputStream(new FileInputStream(file));
+			final byte[] buffer = new byte[1024];
+			for (int read = 0; (read = is.read(buffer)) != -1;) {
+				messageDigest.update(buffer, 0, read);
+			}
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+
+		// Convert the byte to hex format
+		try {
+			Formatter formatter = new Formatter();
+			for (final byte b : messageDigest.digest()) {
+				formatter.format("%02x", b);
+			}
+			result = formatter.toString();
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		
+		return result;
 	}
 }
