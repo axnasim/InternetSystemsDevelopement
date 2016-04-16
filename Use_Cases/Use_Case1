@@ -1,10 +1,10 @@
-Title: 
-Primary Actor: 
-Goal in Context: 
+Title: Find transitive dependencies
+Primary Actor: Developer
+Goal in Context: Find transitive dependencies for their project
 Stakeholders and Interests: 
-Preconditions: Maven, java, DoSOCS, SQLite3 installed
-Main Success Scenario: Successfully downloads all poms and jars, successfully runs DoSOCS, and creates the output
-Failed End Conditions: One of the things in the success Scenario fails. So the downloads fail, it cannot create the output directory, DoSOCS fails, or the output cannot be created. 
-Trigger: Submitting the Pom.xml
+Preconditions: Maven, java, DoSOCS, SQLite3 installed, valid pom.xml for project
+Main Success Scenario: Successfully downloads all poms and jars from Maven Central, successfully runs all jar dependencies through DoSOCS, and stores relationship information pertaining to dependencies.
+Failed End Conditions: One of the things in the success Scenario fails. So the downloads fail, DoSOCS fails, or the relationships cannot be stored. 
+Trigger: Submitting the Pom.xml and jar to the program
 Notes:
 
