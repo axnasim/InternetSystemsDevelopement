@@ -1,9 +1,9 @@
 Title: View dependency information
-Primary Actor: 
-Goal in Context: 
+Primary Actor: Developer
+Goal in Context: Find dependency relationships for a previously analyzed project
 Stakeholders and Interests: 
-Preconditions: DoSOCS, SQLite3 installed
+Preconditions: DoSOCS, SQLite3 installed, jar for the project
 Main Success Scenario: Successfully retrieves the dependency tree of a project from the database.
 Failed End Conditions: The retrieved dependencies are not correct either from being generated incorrectly, or stored in a way that prevents them from being recalled. 
-Trigger: Request information on project from database.
+Trigger: Run the program with the jar as an argument
 Notes:
