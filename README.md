@@ -35,16 +35,17 @@ Two Options:
 
 1. Download/clone source
 2. Run "mvn clean install" from the root of the project
-3. run the jar that is created in the target/ directory with the location of the pom.xml that you want to analyze as an argument. So for example "java -jar internetSystemsDev-1-jar-with-dependencies.jar pom.xml"
+3. run the jar that is created in the target/ directory with the location of the pom.xml and the jar file that you want to analyze as an argument. So for example "java -jar internetSystemsDev-3-jar-with-dependencies.jar pom.xml project-for-pom.jar"
 
 or 
 
 1. Download source
-2. Run pre-built jar in the releases folder with the location of your pom. So for example "java -jar internetSystemsDev-1-jar-with-dependencies.jar /location/of/pom.xml"
+2. Run pre-built jar in the releases folder with the location of your pom and jar file. So for example "java -jar internetSystemsDev-3-jar-with-dependencies.jar /location/of/pom.xml project-for-pom.jar"
 
 Usage:
 
-Command: java -jar \[jarname\].jar /location/of/pom.xml \[options\]
+Command: java -jar /location/of/pom.xml \[jarname\].jar \[options\]
+Command: java -jar \[jarname\].jar
 
 Options: 
 
