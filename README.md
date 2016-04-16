@@ -14,15 +14,19 @@ Used for Development: Maven, DoSOCS, SQLite3, and Python
 
 We will use Github Issues to communicate what is done and what needs to be done. We will use email as needed for communication outside of Github.
 
-# Copyright
+# License and Copyright
 
-Joseph Eley
+All associated documentation is licensed under the terms of the Creative Commons Attribution Share-Alike 3.0 license. See the file CC-BY-SA-3.0 for more details.
 
-Cooper Pendleton
+Software licensed under Apache 2.0, see the file LICENSE for details.
+
+Copyright
+  Joseph Eley
+  Cooper Pendleton
 
 # Database Schema of the System
 
-We will use is the SPDX spec that DoSOCS uses.
+We will use is the SPDX spec that DoSOCS uses. Relationships are stored in the existing RELATIONSHIPS table.
 
 
 # How to Use
