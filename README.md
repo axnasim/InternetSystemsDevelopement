@@ -21,8 +21,8 @@ All associated documentation is licensed under the terms of the Creative Commons
 Software licensed under Apache 2.0, see the file LICENSE for details.
 
 Copyright
-  Joseph Eley
-  Cooper Pendleton
+Joseph Eley
+Cooper Pendleton
 
 # Database Schema of the System
 
