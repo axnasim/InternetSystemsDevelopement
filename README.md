@@ -56,6 +56,7 @@ or
 Usage:
 
 Command: java -jar /location/of/pom.xml \[jarname\].jar \[options\]
+
 Command: java -jar \[jarname\].jar
 
 Options: 
