@@ -63,6 +63,8 @@ Options:
 
 -p - print dependency tree
 
+-h - print usage
+
 # How to Run Tests
 
 1. Download/clone source

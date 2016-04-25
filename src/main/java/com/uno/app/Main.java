@@ -22,6 +22,19 @@ import org.apache.commons.io.FileUtils;
 public class Main {
 	public static void main(String[] args) {
 
+		if (args.length > 0 && args[0].equals("-h")) {
+			String s = "Usage:\n";
+			s += "command: java -jar /location/of/pom [jarnam].jar [options]\n";
+			s += "options:\n";
+			s += "-p - print dependency tree\n";
+			s += "-h -print usage\n";
+			System.out.println(s);
+			System.exit(0);
+		
+			
+			
+		}
+		
 		if (args.length < 2) {
 			if (args.length == 1) {
 				checkDatabase(args[0]);
@@ -33,6 +46,8 @@ public class Main {
 			System.out.println("\tOptions:\n\t\t-p - print dependency tree");
 			System.exit(0);
 		}
+		
+		
 
 		// check if dosocs2 is installed
 		Runtime rt = Runtime.getRuntime();
